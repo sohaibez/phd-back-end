@@ -4,6 +4,7 @@ const adminsSchema = new mongoose.Schema({
     id: {
         type: String,
         required: true,
+        immutable: true,
     },
     firstName: {
         type: String,

@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
 
 const participantsSchema = new mongoose.Schema({
-    id: {
-        type: String,
-        required: true,
-    },
     firstName: {
         type: String,
         required: true,
@@ -16,18 +12,20 @@ const participantsSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
+        validate: {
+            validator: v => v.length >= 10
+        }
     },
     password: {
         type: String,
         required: true,
     },
     code: {
-        type: String,
+        type: Number,
         required: true,
     },
     codeEncrypted: {
         type: String,
-        required: true,
     },
     type: {
         type: String,
