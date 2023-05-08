@@ -22,7 +22,13 @@ const httpsGetParticipant = async (req, res) => {
 }
 
 const httpsAddNewParticipant = async (req, res) => {
-    const { firstName, lastName, email, password, code } = req.body;
+    const { 
+        firstName, 
+        lastName, 
+        email, 
+        password, 
+        code 
+    } = req.body;
 
     if (!firstName ||
         !lastName ||
@@ -39,7 +45,14 @@ const httpsAddNewParticipant = async (req, res) => {
 }
 
 const httpsUpdateParticipant = async (req, res) => {
+    const participantId = req.params.id;
+    const updatedParticipantData = req.body;
+    
+    const participantDb = await updateParticipant(participantId, updatedParticipantData);
 
+    if (!participantDb) return res.status(404).json({error: "participant not found"});   
+
+    return res.status(200).json({message: participantDb});
 }
 
 export {

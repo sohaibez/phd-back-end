@@ -46,8 +46,19 @@ const addNewParticipant = async ({ firstName, lastName, email, password, code })
     }
 }
 
-const updateParticipant = async (participantId) => {
+const updateParticipant = async (participantId, updatedParticipantData) => {
+    try {
+        const updatedParticipant = await participantMongo.findOneAndUpdate(
+            { _id: participantId}, 
+            updatedParticipantData,
+            { new: true }
+        );
 
+        return updatedParticipant;
+    } catch (err) {
+        console.log(err);
+        return null;
+    }
 }
 
 export {
