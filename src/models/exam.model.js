@@ -1,0 +1,1 @@
+import examMongo from "./exam.mongo.js";

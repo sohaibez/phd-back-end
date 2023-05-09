@@ -1,22 +1,24 @@
 import mongoose from "mongoose";
 
-const adminsSchema = new mongoose.Schema({
-    id: {
-        type: String,
-        required: true,
-        immutable: true,
-    },
+const participantsSchema = new mongoose.Schema({
     firstName: {
         type: String,
+        trim: true,
         required: true,
     },
     lastName: {
         type: String,
+        trim: true,
         required: true,
     },
     email: {
         type: String,
+        trim: true,
+        unique: true,
         required: true,
+        validate: {
+            validator: v => v.length >= 10
+        }
     },
     password: {
         type: String,
@@ -24,9 +26,9 @@ const adminsSchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        default: "admin",
+        enum: ["CFD", "viceDean", "admin", "teacher"],
         required: true,
     }
 });
 
-export default mongoose.model("admin", adminsSchema);
+export default mongoose.model("participant", participantsSchema);

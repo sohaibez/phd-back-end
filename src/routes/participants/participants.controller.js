@@ -34,9 +34,10 @@ const httpsAddNewParticipant = async (req, res) => {
         !lastName ||
         !email ||
         !password ||
-        !code) {
-            return res.status(403).send({error: "invalid credential"});
-        }
+        !code
+    ) {
+        return res.status(403).send({error: "invalid credential"});
+    }
 
     const participant = await addNewParticipant(req.body);
 

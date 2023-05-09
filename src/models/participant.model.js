@@ -28,7 +28,7 @@ const addNewParticipant = async ({ firstName, lastName, email, password, code })
 
         const isParticipantExisted = await participantMongo.exists({code: reqCode});
 
-        if (isParticipantExisted) return null;
+        if (isParticipantExisted) return "user already Existed";
 
         const participant = new participantMongo(
             {
@@ -51,7 +51,7 @@ const updateParticipant = async (participantId, updatedParticipantData) => {
         const updatedParticipant = await participantMongo.findOneAndUpdate(
             { _id: participantId}, 
             updatedParticipantData,
-            { new: true }
+            { new: true}
         );
 
         return updatedParticipant;

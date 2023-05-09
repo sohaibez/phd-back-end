@@ -12,6 +12,7 @@ const participantsSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
+        unique: true,
         validate: {
             validator: v => v.length >= 10
         }
@@ -22,6 +23,7 @@ const participantsSchema = new mongoose.Schema({
     },
     code: {
         type: Number,
+        unique: true,
         required: true,
     },
     codeEncrypted: {
