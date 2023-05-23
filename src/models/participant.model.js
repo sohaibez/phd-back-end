@@ -24,7 +24,8 @@ const addNewParticipant = async ({ firstName, lastName, email, password, code })
     const reqCode = code;
     try {            
         const saltRounds = 10;
-        const hash = await bcrypt.hash(password, saltRounds);
+        const hashPassword = await bcrypt.hash(password, saltRounds);
+        const hashCode = await bcrypt.hash(code.toString(), saltRounds);
 
         const isParticipantExisted = await participantMongo.exists({code: reqCode});
 
@@ -35,8 +36,9 @@ const addNewParticipant = async ({ firstName, lastName, email, password, code })
                 firstName,
                 lastName,
                 email,
-                password: hash,
-                code
+                password: hashPassword,
+                code,
+                codeEncrypted: hashCode
             }
         );
         return await participantMongo.create(participant);
@@ -48,13 +50,13 @@ const addNewParticipant = async ({ firstName, lastName, email, password, code })
 
 const updateParticipant = async (participantId, updatedParticipantData) => {
     try {
-        const updatedParticipant = await participantMongo.findOneAndUpdate(
+        const updatedParticipantDB = await participantMongo.findOneAndUpdate(
             { _id: participantId}, 
             updatedParticipantData,
             { new: true}
         );
 
-        return updatedParticipant;
+        return updatedParticipantDB;
     } catch (err) {
         console.log(err);
         return null;

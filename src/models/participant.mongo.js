@@ -24,7 +24,6 @@ const participantsSchema = new mongoose.Schema({
     code: {
         type: Number,
         unique: true,
-        required: true,
     },
     codeEncrypted: {
         type: String,
