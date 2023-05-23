@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const participantsSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     firstName: {
         type: String,
         trim: true,
@@ -31,4 +31,4 @@ const participantsSchema = new mongoose.Schema({
     }
 });
 
-export default mongoose.model("participant", participantsSchema);
+export default mongoose.model("user", userSchema);
