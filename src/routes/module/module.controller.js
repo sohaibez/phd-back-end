@@ -2,13 +2,12 @@ import {
     getAllModules,
     getModuleById,
     addNewModule,
-    updateModule
 } from "../../models/module.model.js";
 
 const httpsGetAllModules = async (req, res) => {
     const modules = await getAllModules();
 
-    if (!modules && modules !== []) return res.status(400).json({error: "something went wrong"});
+    if (!modules) return res.status(400).json({error: "something went wrong"});
     return res.status(200).json(modules);
 }
 

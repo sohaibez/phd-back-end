@@ -7,4 +7,4 @@ const SpecialitySchema = new mongoose.Schema({
     }
 });
 
-export default SpecialitySchema;
+export default mongoose.model("speciality", SpecialitySchema);

@@ -3,6 +3,7 @@ import SpecialityMongo from "./speciality.mongo.js";
 const getAllSpecialities = async () => {
     try {
         const specialities = await SpecialityMongo.find();
+        console.log(`speciality ${specialities}`);
         return specialities;
     } catch (err) {
         return null;
@@ -22,8 +23,8 @@ const addNewSpeciality = async ({name}) => {
     try {
         const isSpecialityExisted = await SpecialityMongo.exists({name: name});
 
-        if (!isSpecialityExisted) return "speciality already Existed";
-        const newSpeciality = new SpecialitySchema({
+        if (isSpecialityExisted) return "speciality already Existed";
+        const newSpeciality = new SpecialityMongo({
             name: name
         });
 
@@ -34,24 +35,8 @@ const addNewSpeciality = async ({name}) => {
     }
 }
 
-const updateSpeciality = async (specialityId, updatedSpecialityData) => {
-    try {
-        const updatedSpecialityDB = await SpecialityMongo.findOneAndUpdate(
-            { _id: specialityId}, 
-            updatedSpecialityData,
-            { new: true}
-        );
-
-        return updatedSpecialityDB;
-    } catch (err) {
-        console.log(err);
-        return null;
-    }
-}
-
 export {
     getAllSpecialities,
     getSpecialityById,
     addNewSpeciality,
-    updateSpeciality
 };
