@@ -28,7 +28,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["CFD", "viceDean", "admin", "teacher"],
         required: true,
-    }
+    },
+    modules: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "module",
+        }
+    ]
 });
 
 export default mongoose.model("user", userSchema);

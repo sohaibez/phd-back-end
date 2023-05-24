@@ -10,13 +10,6 @@ const ModuleSchema = new mongoose.Schema({
         ref: 'Speciality',
         required: true
     },
-    teachers: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Teacher",
-            required: true
-        }
-    ]
 });
 
-export default ModuleSchema;
+export default mongoose.model("module", ModuleSchema);
