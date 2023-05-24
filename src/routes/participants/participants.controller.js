@@ -53,7 +53,7 @@ const httpsUpdateParticipant = async (req, res) => {
 
     if (!participantDb) return res.status(404).json({error: "participant not found"});   
 
-    return res.status(200).json({message: participantDb});
+    return res.status(200).json(participantDb);
 }
 
 export {

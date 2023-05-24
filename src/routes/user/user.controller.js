@@ -38,11 +38,21 @@ const httpsAddNewUser = async (req, res) => {
 }
 
 const httpsUpdateUser = async (req, res) => {
+    const userId = req.params.id;
+    const updatedUserData = req.body;
     
+    const userDb = await updateUser(userId, updatedUserData);
+
+    if (!userDb) return res.status(404).json({error: "user not found"});
+    return res.status(200).json(userDb);
 }
 
 const httpsDeleteUser = async (req, res) => {
+    const userId = req.params.id;
+    const deletedUser = await deleteUser(userId);
 
+    if (!deletedUser) return res.status(404).json({ error: 'User not found.' });
+    return res.status(200).json({ message: "User deleted successfully." });
 }
 
 export {

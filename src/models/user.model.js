@@ -38,12 +38,28 @@ const addNewUser = async ({firstName, lastName, email, password, type}) => {
     }
 }
 
-const updateUser = async () => {
+const updateUser = async (userId, updatedUserData) => {
+    try {
+        const updatedUserDB = await userMongo.findOneAndUpdate(
+            { _id: userId}, 
+            updatedUserData,
+            { new: true}
+        );
 
+        return updatedUserDB;
+    } catch (err) {
+        console.log(err);
+        return null;
+    }
 }
 
-const deleteUser = async () => {
-
+const deleteUser = async (id) => {
+    try {
+        const deletedUser = await userMongo.findByIdAndDelete(id);
+        return deleteUser; 
+    } catch (err) {
+        return null;
+    }
 }
 
 export {
