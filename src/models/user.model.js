@@ -12,6 +12,16 @@ const getUsersByRole = async (type) => {
     }
 }
 
+const getUserById = async (id) => {
+    try {
+        const user = await userMongo.findById(id);
+        return user;
+    } catch (err) {
+        console.log(err);
+        return null;
+    }
+}
+
 const addNewUser = async ({firstName, lastName, email, password, type}) => {
     
     try {            
@@ -64,6 +74,7 @@ const deleteUser = async (id) => {
 
 export {
     getUsersByRole,
+    getUserById,
     addNewUser,
     updateUser,
     deleteUser
