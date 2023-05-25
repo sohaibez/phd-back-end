@@ -11,7 +11,7 @@ const AnnounceSchema = new mongoose.Schema({
     },
     speciality: {
         type: String,
-        required: true
+        required: false
     },
     image: {
         type: String,
@@ -19,4 +19,4 @@ const AnnounceSchema = new mongoose.Schema({
     }
 });
 
-export default AnnounceSchema;
+export default mongoose.model("announce", AnnounceSchema);

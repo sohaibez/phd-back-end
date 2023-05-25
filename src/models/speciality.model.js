@@ -1,3 +1,4 @@
+import specialityMongo from "./speciality.mongo.js";
 import SpecialityMongo from "./speciality.mongo.js";
 
 const getAllSpecialities = async () => {
@@ -8,6 +9,15 @@ const getAllSpecialities = async () => {
     } catch (err) {
         return null;
     }
+}
+
+const getSpecialityByName = async (name) => {
+    try {
+        const speciality = await specialityMongo.findOne({ name: name });
+        return speciality;
+    } catch (err) {
+        return null;
+    } 
 }
 
 const getSpecialityById = async (specialityId) => {
@@ -38,5 +48,6 @@ const addNewSpeciality = async ({name}) => {
 export {
     getAllSpecialities,
     getSpecialityById,
-    addNewSpeciality,
+    getSpecialityByName,
+    addNewSpeciality
 };
