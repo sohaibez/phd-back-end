@@ -1,7 +1,4 @@
 import announceMongo from "./Announce.mongo.js";
-import {
-    getSpecialityByName
-} from "./speciality.model.js";
 
 const getAllAnnounce = async () => {
     try {
