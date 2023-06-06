@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
 
 const ExamSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
   date: {
     type: Date,
     required: true
@@ -14,18 +10,23 @@ const ExamSchema = new mongoose.Schema({
     ref: 'Module',
     required: true
   },
+  teachers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    }
+  ],
   notes: {
     type: [
       {
         teacher: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'User',
-          required: true
         },
         participant: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Participant',
-          required: true
         },
         note: {
           type: Number,
