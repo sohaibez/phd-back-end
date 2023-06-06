@@ -9,6 +9,11 @@ const ExamSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
+  moduleId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Module',
+    required: true
+  },
   notes: {
     type: [
       {
