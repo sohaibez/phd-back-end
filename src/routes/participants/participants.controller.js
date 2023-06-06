@@ -1,3 +1,6 @@
+import csv from "csv-parser";
+import { Readable } from "stream";
+
 import {
     getAllParticipants,
     getParticipantById,
@@ -21,28 +24,59 @@ const httpsGetParticipant = async (req, res) => {
     return res.status(200).json(participant);
 }
 
-const httpsAddNewParticipant = async (req, res) => {
-    const { 
-        firstName, 
-        lastName, 
-        email, 
-        password, 
-        code 
-    } = req.body;
-
-    if (!firstName ||
-        !lastName ||
-        !email ||
-        !password ||
-        !code
+const checkParticipantsDataIsValid = ({ firstName, lastName, email, password, code }) => {
+    if (firstName &&
+        lastName &&
+        email &&
+        password &&
+        code
     ) {
-        return res.status(400).send({error: "invalid data"});
+        return true;
     }
+    return false;
+}
 
+const addParticipantFromForm = async (req, res) => {
+    const participantDataIsValid = checkParticipantsDataIsValid(req.body);
+    if (!participantDataIsValid) return res.status(400).send({error: "invalid data"});
+    
     const participant = await addNewParticipant(req.body);
 
+    if (participant === "user already Existed") return res.status(400).json({error: "user already exists"});
+    
     if (!participant) return res.status(400).json({error: "couldn't add participant"});
     return res.status(201).json(participant);
+}
+
+const addParticipantFromCsv = async (req, res) => {
+    const csvFile = req.file;
+    const participants = [];
+
+    const bufferData = csvFile.buffer.toString();
+    const readStream = Readable.from(bufferData);
+
+    readStream
+        .pipe(csv())
+        .on("data", (data) => participants.push(data))
+        .on('end', async () => {
+            for (const participant of participants) {
+                if (!checkParticipantsDataIsValid(participant)) return res.status(400).send({error: "invalid data"});
+                    
+                const participantDb = await addNewParticipant(participant);
+    
+                if (!participantDb) return res.status(400).json({error: "couldn't add participant"});
+            }
+            return res.status(201).json(participants);
+        }
+    );
+}
+
+const httpsAddNewParticipant = async (req, res) => {
+    if (!req.file) {
+        return await addParticipantFromForm(req, res);
+    } else {
+        return await addParticipantFromCsv(req, res);
+    }
 }
 
 const httpsUpdateParticipant = async (req, res) => {
