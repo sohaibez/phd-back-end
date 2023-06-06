@@ -18,11 +18,6 @@ const NoteSchema = new mongoose.Schema({
       type: Number,
       min: 0,
       max: 20
-    },
-    finalNote: {
-        type: Number,
-        min: 0,
-        max: 20
     }
 })
 
