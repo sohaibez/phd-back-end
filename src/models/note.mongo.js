@@ -6,11 +6,11 @@ const NoteSchema = new mongoose.Schema({
         ref: 'Exam',
         required: true
     },
-    teacher: {
+    teacherId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     },
-    participant: {
+    participantId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Participant',
     },
