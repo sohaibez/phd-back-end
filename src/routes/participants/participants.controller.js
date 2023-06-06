@@ -60,7 +60,8 @@ const addParticipantFromCsv = async (req, res) => {
         .on("data", (data) => participants.push(data))
         .on('end', async () => {
             for (const participant of participants) {
-                if (!checkParticipantsDataIsValid(participant)) return res.status(400).send({error: "invalid data"});
+                const participantDataIsValid = checkParticipantsDataIsValid(req.body);
+                if (!participantDataIsValid) return res.status(400).send({error: "invalid data"});
                     
                 const participantDb = await addNewParticipant(participant);
     
