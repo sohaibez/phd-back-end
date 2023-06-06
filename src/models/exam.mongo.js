@@ -42,7 +42,6 @@ const ExamSchema = new mongoose.Schema({
       message: 'All notes must have the same participant ID'
     },
     required: true,
-    // validate: [arrayLimit, '{PATH} exceeds the limit of 3'] // check if the notes array has exactly 3 items
   },
   finalNote: {
     type: Number,
@@ -54,13 +53,6 @@ const ExamSchema = new mongoose.Schema({
 function arrayLimit(val) {
   return val.length === 3;
 }
-
-// ExamSchema.statics.isAllowedToAssignNote = (teacherId) => {
-// }
-
-// ExamSchema.methods.allTeacherAssignNote = (idExam, notes) => {
-//     return notes.length >= 2;
-// }
 
 ExamSchema.statics.needsAnotherTeacher = (notes) => {
     let difference = notes.reduce((acc, note) => acc - note);
