@@ -33,7 +33,7 @@ const addNewParticipant = async ({ firstName, lastName, firstNameArabic, lastNam
                 firstNameArabic,
                 lastNameArabic,
                 email,
-                password: hashPassword,
+                password: hashPassword
             }
         );
         return await participantMongo.create(participant);

@@ -25,9 +25,11 @@ const httpsGetParticipant = async (req, res) => {
     return res.status(200).json(participant);
 }
 
-const checkParticipantsDataIsValid = ({ firstName, lastName, email, password }) => {
+const checkParticipantsDataIsValid = ({ firstName, lastName, firstNameArabic, lastNameArabic, email, password }) => {
     if (firstName &&
         lastName &&
+        firstNameArabic &&
+        lastNameArabic &&   
         email &&
         password
     ) {
@@ -60,7 +62,7 @@ const addParticipantFromCsv = async (req, res) => {
         .on("data", (data) => participants.push(data))
         .on('end', async () => {
             for (const participant of participants) {
-                const participantDataIsValid = checkParticipantsDataIsValid(req.body);
+                const participantDataIsValid = checkParticipantsDataIsValid(participant);
                 if (!participantDataIsValid) return res.status(400).send({error: "invalid data"});
                     
                 const participantDb = await addNewParticipant(participant);
