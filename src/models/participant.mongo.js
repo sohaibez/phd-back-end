@@ -9,6 +9,14 @@ const participantsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    firstNameArabic: {
+        type: String,
+        required: true,
+    },
+    lastNameArabic: {
+        type: String,
+        required: true,
+    },
     email: {
         type: String,
         required: true,
