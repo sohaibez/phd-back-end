@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import { v4 as uuidv4 } from 'uuid';
 
 import participantMongo from "./participant.mongo.js";
 
@@ -20,25 +21,19 @@ const getParticipantById = async (participantId) => {
     }
 }
 
-const addNewParticipant = async ({ firstName, lastName, email, password, code }) => {
-    const reqCode = code;
+const addNewParticipant = async ({ firstName, lastName, firstNameArabic, lastNameArabic, email, password }) => {
     try {            
         const saltRounds = 10;
         const hashPassword = await bcrypt.hash(password, saltRounds);
-        const hashCode = await bcrypt.hash(code.toString(), saltRounds);
-
-        const isParticipantExisted = await participantMongo.exists({code: reqCode});
-
-        if (isParticipantExisted) return "user already Existed";
 
         const participant = new participantMongo(
             {
                 firstName,
                 lastName,
+                firstNameArabic,
+                lastNameArabic,
                 email,
                 password: hashPassword,
-                code,
-                codeEncrypted: hashCode
             }
         );
         return await participantMongo.create(participant);
@@ -63,9 +58,31 @@ const updateParticipant = async (participantId, updatedParticipantData) => {
     }
 }
 
+const updateParticipantsCode = async () => {
+    try {
+        const participants = await participantMongo.find();
+
+        const saltRounds = 10;
+        for (let participant of participants) {
+            const code = uuidv4().toString();
+            const codeEncrypted = await bcrypt.hash(code, saltRounds);
+
+            participant.code = code;
+            participant.codeEncrypted = codeEncrypted;
+            await participant.save();
+        }
+        
+        return await participantMongo.find();
+    } catch (err) {
+        console.log(err);
+        return null;
+    }
+}
+
 export {
     getAllParticipants,
     getParticipantById,
     addNewParticipant,
-    updateParticipant
+    updateParticipant,
+    updateParticipantsCode
 }

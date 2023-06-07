@@ -11,11 +11,9 @@ const participantsSchema = new mongoose.Schema({
     },
     firstNameArabic: {
         type: String,
-        required: true,
     },
     lastNameArabic: {
         type: String,
-        required: true,
     },
     email: {
         type: String,
@@ -30,7 +28,7 @@ const participantsSchema = new mongoose.Schema({
         required: true,
     },
     code: {
-        type: Number,
+        type: String,
         unique: true,
     },
     codeEncrypted: {

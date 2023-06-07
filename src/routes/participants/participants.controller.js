@@ -5,7 +5,8 @@ import {
     getAllParticipants,
     getParticipantById,
     addNewParticipant,
-    updateParticipant
+    updateParticipant,
+    updateParticipantsCode
 } from "../../models/participant.model.js";
 
 const httpsGetAllParticipants = async (req, res) => {
@@ -24,12 +25,11 @@ const httpsGetParticipant = async (req, res) => {
     return res.status(200).json(participant);
 }
 
-const checkParticipantsDataIsValid = ({ firstName, lastName, email, password, code }) => {
+const checkParticipantsDataIsValid = ({ firstName, lastName, email, password }) => {
     if (firstName &&
         lastName &&
         email &&
-        password &&
-        code
+        password
     ) {
         return true;
     }
@@ -91,9 +91,17 @@ const httpsUpdateParticipant = async (req, res) => {
     return res.status(200).json(participantDb);
 }
 
+const httpsUpdateParticipantsCode = async (req, res) => {
+    const updatedParticipants = await updateParticipantsCode();
+
+    if (!updatedParticipants) return res.status(400).json({error: "request failed"});
+    return res.status(200).json(updatedParticipants);
+}
+
 export {
     httpsGetAllParticipants,
     httpsAddNewParticipant,
     httpsGetParticipant,
-    httpsUpdateParticipant
+    httpsUpdateParticipant,
+    httpsUpdateParticipantsCode
 }
