@@ -10,6 +10,7 @@ import messagesRouter from "./routes/message/message.router.js";
 import specialitiesRouter from "./routes/speciality/speciality.router.js";
 import modulesRouter from "./routes/module/module.router.js";
 import examsRouter from "./routes/exam/exam.router.js";
+import claimsRouter from "./routes/claim/claim.router.js";
 
 dotenv.config()
 
@@ -26,6 +27,7 @@ app.use("/messages", messagesRouter);
 app.use("/specialities", specialitiesRouter);
 app.use("/modules", modulesRouter);
 app.use("/exams", examsRouter);
+app.use("/claims", claimsRouter);
 
 export {
     app
