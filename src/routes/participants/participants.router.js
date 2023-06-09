@@ -15,10 +15,10 @@ const participantsRouter = express.Router();
 const upload = multer();
 
 participantsRouter.get("/", httpsGetAllParticipants);
+participantsRouter.get("/code", httpsUpdateParticipantsCode);
 participantsRouter.get("/:id", httpsGetParticipant);
 participantsRouter.get("/speciality/:speciality", httpsGetParticipantBySpeciality);
 participantsRouter.post("/", upload.single("csv"), httpsAddNewParticipant);
-participantsRouter.get("/code", httpsUpdateParticipantsCode);
 participantsRouter.put("/:id", httpsUpdateParticipant);
 
 export default participantsRouter;
