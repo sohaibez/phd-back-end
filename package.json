@@ -5,8 +5,8 @@
   "main": "src/server.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon src/server.js",
-    "dev": "pm2 start -f src/server.js"
+    "start": "pm2 start -f src/server.js",
+    "dev": "nodemon src/server.js"
   },
   "author": "sohaibe zerari",
   "license": "ISC",
