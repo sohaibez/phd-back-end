@@ -11,6 +11,7 @@ import specialitiesRouter from "./routes/speciality/speciality.router.js";
 import modulesRouter from "./routes/module/module.router.js";
 import examsRouter from "./routes/exam/exam.router.js";
 import claimsRouter from "./routes/claim/claim.router.js";
+import phasesRouter from "./routes/phase/phase.router.js";
 
 dotenv.config()
 
@@ -28,6 +29,7 @@ app.use("/specialities", specialitiesRouter);
 app.use("/modules", modulesRouter);
 app.use("/exams", examsRouter);
 app.use("/claims", claimsRouter);
+app.use("/phases", phasesRouter);
 
 export {
     app
