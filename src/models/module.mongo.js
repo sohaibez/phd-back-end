@@ -10,6 +10,10 @@ const ModuleSchema = new mongoose.Schema({
         ref: 'Speciality',
         required: true
     },
+    teachers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "teacher"
+    }]
 });
 
 export default mongoose.model("module", ModuleSchema);
