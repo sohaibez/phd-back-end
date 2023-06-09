@@ -1,8 +1,9 @@
+import AnnounceMongo from "./Announce.mongo.js";
 import announceMongo from "./Announce.mongo.js";
 
-const getAllAnnounce = async () => {
+const getAllAnnounce = async (filteredData) => {
     try {
-        const announces = announceMongo.find();
+        const announces = announceMongo.find(filteredData);
         return announces;
     } catch (err) {
         return null;

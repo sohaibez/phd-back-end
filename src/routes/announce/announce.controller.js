@@ -6,7 +6,8 @@ import {
 import { getSpecialityByName } from "../../models/speciality.model.js";
 
 const httpsGetAllAnnounces = async (req, res) => {
-    const announces = await getAllAnnounce();
+    const filteredData = req.query;
+    const announces = await getAllAnnounce(filteredData);
 
     if (!announces) return res.status(400).json({error: "something went wrong"});
     return res.status(200).json(announces);
