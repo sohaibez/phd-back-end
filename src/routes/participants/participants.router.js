@@ -18,7 +18,7 @@ participantsRouter.get("/", httpsGetAllParticipants);
 participantsRouter.get("/:id", httpsGetParticipant);
 participantsRouter.get("/speciality/:speciality", httpsGetParticipantBySpeciality);
 participantsRouter.post("/", upload.single("csv"), httpsAddNewParticipant);
-participantsRouter.put("/code", httpsUpdateParticipantsCode);
+participantsRouter.get("/code", httpsUpdateParticipantsCode);
 participantsRouter.put("/:id", httpsUpdateParticipant);
 
 export default participantsRouter;
