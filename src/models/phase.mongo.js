@@ -8,4 +8,4 @@ const PhaseSchema = mongoose.Schema({
     }
 });
 
-export default mongoose.model('phaseSchema', PhaseSchema);
+export default mongoose.model("phase", PhaseSchema);
