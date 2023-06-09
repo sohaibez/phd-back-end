@@ -82,7 +82,7 @@ const updateParticipantsCode = async () => {
 
 const getParticipantBySpeciality = async (participantSpeciality) => {
     try {
-        const participant = await participantMongo.find({ speciality: speciality });
+        const participant = await participantMongo.find({ speciality: participantSpeciality });
         return participant;
     } catch (err) {
         console.log(err);
