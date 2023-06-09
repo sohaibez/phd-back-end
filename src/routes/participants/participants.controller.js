@@ -6,7 +6,8 @@ import {
     getParticipantById,
     addNewParticipant,
     updateParticipant,
-    updateParticipantsCode
+    updateParticipantsCode,
+    getParticipantBySpeciality
 } from "../../models/participant.model.js";
 
 const httpsGetAllParticipants = async (req, res) => {
@@ -25,12 +26,13 @@ const httpsGetParticipant = async (req, res) => {
     return res.status(200).json(participant);
 }
 
-const checkParticipantsDataIsValid = ({ firstName, lastName, firstNameArabic, lastNameArabic, email, password }) => {
+const checkParticipantsDataIsValid = ({ firstName, lastName, firstNameArabic, lastNameArabic, email, speciality, password }) => {
     if (firstName &&
         lastName &&
         firstNameArabic &&
         lastNameArabic &&   
         email &&
+        speciality &&
         password
     ) {
         return true;
@@ -100,10 +102,20 @@ const httpsUpdateParticipantsCode = async (req, res) => {
     return res.status(200).json(updatedParticipants);
 }
 
+const httpsGetParticipantBySpeciality = async (req, res) => {
+    const participantSpeciality = req.params.speciality;
+
+    const participant = await getParticipantBySpeciality(participantSpeciality);
+    if (!participant) return res.status(404).json({error: "participant not found"});
+
+    return res.status(200).json(participant);
+}
+
 export {
     httpsGetAllParticipants,
     httpsAddNewParticipant,
     httpsGetParticipant,
     httpsUpdateParticipant,
-    httpsUpdateParticipantsCode
+    httpsUpdateParticipantsCode,
+    httpsGetParticipantBySpeciality
 }

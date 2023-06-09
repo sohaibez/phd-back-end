@@ -6,7 +6,8 @@ import {
     httpsAddNewParticipant,
     httpsGetParticipant,
     httpsUpdateParticipant,
-    httpsUpdateParticipantsCode
+    httpsUpdateParticipantsCode,
+    httpsGetParticipantBySpeciality
 } from "./participants.controller.js";
 
 const participantsRouter = express.Router();
@@ -15,6 +16,7 @@ const upload = multer();
 
 participantsRouter.get("/", httpsGetAllParticipants);
 participantsRouter.get("/:id", httpsGetParticipant);
+participantsRouter.get("/speciality/:speciality", httpsGetParticipantBySpeciality);
 participantsRouter.post("/", upload.single("csv"), httpsAddNewParticipant);
 participantsRouter.put("/code", httpsUpdateParticipantsCode);
 participantsRouter.put("/:id", httpsUpdateParticipant);

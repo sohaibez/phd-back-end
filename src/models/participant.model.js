@@ -21,7 +21,7 @@ const getParticipantById = async (participantId) => {
     }
 }
 
-const addNewParticipant = async ({ firstName, lastName, firstNameArabic, lastNameArabic, email, password }) => {
+const addNewParticipant = async ({ firstName, lastName, firstNameArabic, lastNameArabic, email, speciality, password }) => {
     try {            
         const saltRounds = 10;
         const hashPassword = await bcrypt.hash(password, saltRounds);
@@ -33,6 +33,7 @@ const addNewParticipant = async ({ firstName, lastName, firstNameArabic, lastNam
                 firstNameArabic,
                 lastNameArabic,
                 email,
+                speciality,
                 password: hashPassword
             }
         );
@@ -79,10 +80,21 @@ const updateParticipantsCode = async () => {
     }
 }
 
+const getParticipantBySpeciality = async (participantSpeciality) => {
+    try {
+        const participant = await participantMongo.find({ speciality: speciality });
+        return participant;
+    } catch (err) {
+        console.log(err);
+        return null;
+    }
+}
+
 export {
     getAllParticipants,
     getParticipantById,
     addNewParticipant,
     updateParticipant,
-    updateParticipantsCode
+    updateParticipantsCode,
+    getParticipantBySpeciality
 }
