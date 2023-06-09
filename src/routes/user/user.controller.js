@@ -15,9 +15,7 @@ const httpsGetAllUsersByType = async (req, res) => {
 }
 
 const httpsGetUserById = async (req, res) => {
-    console.log(1);
     const userId = req.params.id;
-    console.log(userId);
     const user = await getUserById(userId);
 
     if (!user) return res.status(400).json({error: "something went wrong"});
