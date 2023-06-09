@@ -16,7 +16,8 @@ const httpsAddNewAnnounce = async (req, res) => {
     const {
         title,
         description,
-        speciality
+        speciality,
+        link
     } = req.body;
 
     if (!title || !description) return res.status(400).send({error: "invalid data"});
@@ -26,7 +27,7 @@ const httpsAddNewAnnounce = async (req, res) => {
     const specialityNotEmpty = speciality === "";
     if (!specialityNotEmpty && !specialityId) return res.status(404).json({error: "speciality not found"});
     
-    const announce = await addNewAnnounce({ title, description, speciality});
+    const announce = await addNewAnnounce({ title, description, speciality, link});
 
     if (!announce) return res.status(400).json({error: "couldn't add speciality"});
     return res.status(201).json(announce);

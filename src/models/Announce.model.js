@@ -9,13 +9,16 @@ const getAllAnnounce = async () => {
     }
 }
 
-const addNewAnnounce = async ({ title, description, speciality, image}) => {
+const addNewAnnounce = async ({ title, description, speciality, link}) => {
+    let myLink = link ? link : "";
+    
     try {
         const newAnnounce = new announceMongo({
             title,
             description,
-            speciality
-        });
+            speciality,
+            link: myLink
+       });
 
         return await announceMongo.create(newAnnounce);
     } catch (err) {
