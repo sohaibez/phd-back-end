@@ -1,5 +1,6 @@
 import {
     getUsersByRole,
+    getUserById,
     addNewUser,
     updateUser,
     deleteUser
@@ -11,6 +12,16 @@ const httpsGetAllUsersByType = async (req, res) => {
 
     if (!users) return res.status(400).json({error: "something went wrong"});
     return res.status(200).json(users);
+}
+
+const httpsGetUserById = async (req, res) => {
+    console.log(1);
+    const userId = req.params.id;
+    console.log(userId);
+    const user = await getUserById(userId);
+
+    if (!user) return res.status(400).json({error: "something went wrong"});
+    return res.status(200).json(user);
 }
 
 const httpsAddNewUser = async (req, res) => {
@@ -59,5 +70,6 @@ export {
     httpsGetAllUsersByType,
     httpsAddNewUser,
     httpsUpdateUser,
-    httpsDeleteUser
+    httpsDeleteUser,
+    httpsGetUserById
 }

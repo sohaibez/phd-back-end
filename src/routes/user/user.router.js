@@ -3,12 +3,14 @@ import {
     httpsGetAllUsersByType,
     httpsAddNewUser,
     httpsUpdateUser,
-    httpsDeleteUser
+    httpsDeleteUser,
+    httpsGetUserById
 } from "./user.controller.js";
 
 const usersRouter = express.Router();
 
-usersRouter.get("/:type", httpsGetAllUsersByType);
+usersRouter.get("/type/:type", httpsGetAllUsersByType);
+usersRouter.get("/:id", httpsGetUserById);
 usersRouter.post("", httpsAddNewUser);
 usersRouter.put("/:id", httpsUpdateUser);
 usersRouter.delete("/:id", httpsDeleteUser);
