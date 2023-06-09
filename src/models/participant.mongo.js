@@ -27,6 +27,11 @@ const participantsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    speciality: {
+        type: String,
+        enum: ["GL", "STIC", "STIW", "RSD"],
+        required: true
+    },
     code: {
         type: String,
     },
