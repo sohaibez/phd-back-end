@@ -1,20 +1,31 @@
 import mongoose from "mongoose";
 
 const NoteSchema = new mongoose.Schema({
-    examId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Exam',
+    participantCode: {
+        type: String,
         required: true
     },
-    teacherId: {
+    moduleId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'module',
     },
-    participantCode: {
-      type: Number,
-      required: true,
+    notes: { 
+      type: [
+        {
+          type: Number,
+          min: 0,
+          max: 20,
+          required: true,
+        }
+      ],
+      validate: {
+        validator: function (notes) {
+          return notes.length <= 3;
+        },
+        message: "Maximum of 3 notes allowed",
+      },
     },
-    note: {
+    FinaleNote: {
       type: Number,
       min: 0,
       max: 20
