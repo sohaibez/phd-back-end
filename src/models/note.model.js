@@ -1,122 +1,85 @@
 import noteMongo from "./note.mongo.js";
-import examMongo from "./exam.mongo.js";
+import userMongo from "./user.mongo.js";
+import moduleMongo from "./module.mongo.js";
 import participantMongo from "./participant.mongo.js";
+import mongoose from "mongoose";
 
-import {
-    assignNote
-} from "./finaleNote.model.js";
-
-import {
-    getUsersByRole
-} from "./user.model.js";
-
-const addNote = async (examId, teacherId, participantCode, note) => {
+const getNoteByModuleIdAndParticipantCode = async (participantCode, moduleId) => {
     try {
-        const previousNote = await noteMongo.find({examId});
-
-        const exam = await examMongo.findById(examId);
-        if (!exam) return null;
-        
-        const teacher = await userMongo.findById(teacherId);
-        if (!teacher) return null;
-        if (!isTeacherAllowedToAssignNote(examId, teacherId)) return null;
-        
-        const participant = await participantMongo.find({code: participantCode});
-        if (!participant) return null;
-                
-        const noteDb = new noteMongo({
-            examId,
-            teacherId,
+        const note = await noteMongo.find({
             participantCode,
-            note
+            moduleId
         });
-        const savedNote = await participantMongo.create(noteDb);
+        return note;
+    } catch (err) {
+        console.log(err);
+        return null;
+    }
+}
 
-        let finaleNote;
-        if (previousNote.length === 1) {
-            if (previousNote[0].note - note < 3) {
-                finaleNote = (previousNote[0].note + note)/ 2;
-                await assignNote(examId, finaleNote);
-                return Object.assign(finaleNote, savedNote);
-            } else {
-                const teacherId = await addThirdTeacher(examId);
-            }
-        } else if (previousNote.length === 2) {
-            const note1 = previousNote[0].note;
-            const note2 = previousNote[1].note;
-            const note3 = previousNote[2].note;
-            if (note1 - note3 < note2 - note3) {
-                finaleNote = (note3 + note1) / 2;
-            } else {
-                finaleNote = (note3 + note2) / 2;
-            }
-            await assignNote(examId, finaleNote);
-            return Object.assign(finaleNote, savedNote);
+const addNoteToParticipantHelper = async (participantCode, moduleId, note) => {
+    try {
+        const noteDb = new noteMongo({
+            participantCode,
+            moduleId,
+        });
+        
+        noteDb.notes.push(note);
+        await noteDb.save();
+
+        return noteDb;
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
+}
+
+const addNoteToParticipant = async (teacherId, participantCode, moduleId, note) => {
+    try {
+        const teacherDb = await userMongo.findById(teacherId);
+        const moduleDb = await moduleMongo.findById(moduleId);
+        const participantDb = await participantMongo.find({ code: participantCode });
+
+        if (!teacherDb || !moduleDb || !participantDb) return null;
+
+        if (!moduleDb.teachers.includes(teacherId)) return null;
+        
+        const noteDb = await getNoteByModuleIdAndParticipantCode(participantCode, moduleId);
+        const existingNote = noteDb[0];
+        // if (!existingNote.finaleNote || existingNote.notes.length === 3) return null;
+
+        // check if we already have a note in the database
+        if (!existingNote) {
+            const noteDb = addNoteToParticipantHelper(participantCode, moduleId, note);
+            if (!noteDb) return null;
+            return noteDb;
+        } else if (existingNote.notes.length === 1) {
+            existingNote.notes.push(note);
+
+            const difference = Math.abs(existingNote.notes[0] - existingNote.notes[1]);
+            const sum = existingNote.notes[0] + existingNote.notes[1];
+            if (difference <= 3) {
+                existingNote.finaleNote = sum / 2;
+                await existingNote.save();
+            }    
+        } else if (existingNote.notes.length === 2) {
+            existingNote.notes.push(note);
+
+            const difference = Math.min(
+                Math.abs(existingNote.notes[0] - note), 
+                Math.abs(existingNote.notes[1] - note), 
+            );
+            existingNote.finaleNote = (note - difference) / 2;
+            await existingNote.save();
         }
 
-        return savedNote;
+        return existingNote;
     } catch (err) {
         console.log(err);
         return null;
     }
-}
-
-const isTeacherAllowedToAssignNote = async (examId, teacherId) => {
-    try {
-        const exam = await examMongo.findOne(
-            { 
-                _id: examId, 
-                teachers: { 
-                    $in: [teacherId] 
-                } 
-            }
-        );
-
-        return !!exam;
-    } catch (err) {
-        console.log(err);
-        return null;
-    }
-}
-
-const addThirdTeacher = async (examId) => {
-    const teacher = await getAnotherTeacher(examId);
-    if (!teacher) return null;
-
-    try {
-        const exam = await examMongo.findById(examId);
-        if (!exam) return null;
-        
-        exam.teachers.push(teacher._id); 
-        await exam.save();
-    
-        return teacher._id;
-      } catch (error) {
-        console.error(error);
-        return null;
-      }
-}
-
-const getAnotherTeacher = async (examId) => {
-    const allTeachers = await getUsersByRole("teacher");
-    if (!allTeachers) return null;
-
-    try {
-        const exam = await examMongo.findById(examId).populate('teachers');
-        if (!exam) return null;
-    } catch (err) {
-        console.log(err);
-        return null;
-    }
-
-    const teachers = exam.teachers;
-
-    for (let teacher of allTeachers) {
-        if (!teachers.includes(teacher._id)) return teacher; 
-    }
-    return null;
 }
 
 export {
-    addNote
+    addNoteToParticipant
 }

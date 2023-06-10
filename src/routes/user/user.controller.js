@@ -6,6 +6,10 @@ import {
     deleteUser
 } from "../../models/user.model.js";
 
+import {
+    addNoteToParticipant
+} from "../../models/note.model.js";
+
 const httpsGetAllUsersByType = async (req, res) => {
     const type = req.params.type;
     const users = await getUsersByRole(type);
@@ -64,10 +68,24 @@ const httpsDeleteUser = async (req, res) => {
     return res.status(200).json({ message: "User deleted successfully." });
 }
 
+const httpsAddNoteToParticipant = async (req, res) => {
+    const teacherId = req.params.id;
+    const {
+        participantCode,
+        moduleId,
+        note
+    } = req.body;
+
+    const noteDb = await addNoteToParticipant(teacherId, participantCode, moduleId, note);
+    if (!noteDb) return res.status(400).json({ error: "something went wrong" });
+    return res.status(201).json(noteDb);
+}
+
 export {
     httpsGetAllUsersByType,
     httpsAddNewUser,
     httpsUpdateUser,
+    httpsAddNoteToParticipant,
     httpsDeleteUser,
     httpsGetUserById
 }

@@ -25,7 +25,7 @@ const NoteSchema = new mongoose.Schema({
         message: "Maximum of 3 notes allowed",
       },
     },
-    FinaleNote: {
+    finaleNote: {
       type: Number,
       min: 0,
       max: 20
