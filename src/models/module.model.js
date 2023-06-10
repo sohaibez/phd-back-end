@@ -1,5 +1,6 @@
 import moduleMongo from "./module.mongo.js";
 import specialityMongo from "./speciality.mongo.js";
+import userMongo from "./user.mongo.js";
 
 const getAllModules = async () => {
     try {
@@ -55,8 +56,30 @@ const addNewModule = async ({name, speciality}) => {
     }
 }
 
+const addTeacherToModule = async (moduleId, teacherId) => {
+    try {
+        const module = await moduleMongo.findById(moduleId);
+        if (!module) return null;
+
+        const teacher = await userMongo.findById(teacherId);
+        if (!teacher) return null;
+
+        if (module.teachers.length === 3) return null;
+        if (module.teachers.includes(teacherId)) return null;
+
+        module.teachers.push(teacherId);
+        await module.save();
+
+        return module;
+    } catch (err) {
+        console.log(err);
+        return null;
+    }
+}
+
 export {
     getAllModules,
     getModuleById,
-    addNewModule
+    addNewModule,
+    addTeacherToModule
 }
