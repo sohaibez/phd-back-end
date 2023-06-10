@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 
 import userMongo from "./user.mongo.js";
+import moduleMongo from "./module.mongo.js";
 
 const getUsersByRole = async (type) => {
     try {
@@ -72,10 +73,23 @@ const deleteUser = async (id) => {
     }
 }
 
+const getModulesOfTeacher = async (teacherId) => {
+    try {
+        const modules = await moduleMongo.find();
+        let returnedModules = modules.filter(module => module.teachers.includes(teacherId));
+
+        return returnedModules;
+    } catch (err) {
+        console.log(err);
+        return null;
+    }
+}
+
 export {
     getUsersByRole,
     getUserById,
     addNewUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    getModulesOfTeacher
 }

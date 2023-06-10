@@ -5,7 +5,8 @@ import {
     httpsUpdateUser,
     httpsAddNoteToParticipant,
     httpsDeleteUser,
-    httpsGetUserById
+    httpsGetUserById,
+    httpsGetModulesOfTeacher
 } from "./user.controller.js";
 
 const usersRouter = express.Router();
@@ -16,5 +17,6 @@ usersRouter.post("", httpsAddNewUser);
 usersRouter.post("/:id/notes", httpsAddNoteToParticipant);
 usersRouter.put("/:id", httpsUpdateUser);
 usersRouter.delete("/:id", httpsDeleteUser);
+usersRouter.get("/teacher/:id/modules", httpsGetModulesOfTeacher);
 
 export default usersRouter;

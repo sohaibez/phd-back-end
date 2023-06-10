@@ -45,9 +45,7 @@ const addNoteToParticipant = async (teacherId, participantCode, moduleId, note) 
         
         const noteDb = await getNoteByModuleIdAndParticipantCode(participantCode, moduleId);
         const existingNote = noteDb[0];
-        // if (!existingNote.finaleNote || existingNote.notes.length === 3) return null;
 
-        // check if we already have a note in the database
         if (!existingNote) {
             const noteDb = addNoteToParticipantHelper(participantCode, moduleId, note);
             if (!noteDb) return null;
@@ -59,16 +57,17 @@ const addNoteToParticipant = async (teacherId, participantCode, moduleId, note) 
             const sum = existingNote.notes[0] + existingNote.notes[1];
             if (difference <= 3) {
                 existingNote.finaleNote = sum / 2;
-                await existingNote.save();
             }    
+            await existingNote.save();
         } else if (existingNote.notes.length === 2) {
             existingNote.notes.push(note);
 
-            const difference = Math.min(
-                Math.abs(existingNote.notes[0] - note), 
-                Math.abs(existingNote.notes[1] - note), 
+            const finaleNote = Math.max(
+                existingNote.notes[0], 
+                existingNote.notes[1],
+                existingNote.notes[2]
             );
-            existingNote.finaleNote = (note - difference) / 2;
+            existingNote.finaleNote = finaleNote;
             await existingNote.save();
         }
 

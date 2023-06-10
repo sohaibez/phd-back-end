@@ -3,7 +3,8 @@ import {
     getUserById,
     addNewUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    getModulesOfTeacher
 } from "../../models/user.model.js";
 
 import {
@@ -81,11 +82,20 @@ const httpsAddNoteToParticipant = async (req, res) => {
     return res.status(201).json(noteDb);
 }
 
+const httpsGetModulesOfTeacher = async (req, res) => {
+    const teacherId = req.params.id;
+
+    const modulesOfTeacher = await getModulesOfTeacher(teacherId);
+    if (!modulesOfTeacher) return res.status(400).json({ error: "something went wrong" });
+    return res.status(200).json(modulesOfTeacher);
+}
+
 export {
     httpsGetAllUsersByType,
     httpsAddNewUser,
     httpsUpdateUser,
     httpsAddNoteToParticipant,
     httpsDeleteUser,
-    httpsGetUserById
+    httpsGetUserById,
+    httpsGetModulesOfTeacher
 }
