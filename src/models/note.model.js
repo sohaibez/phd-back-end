@@ -2,7 +2,6 @@ import noteMongo from "./note.mongo.js";
 import userMongo from "./user.mongo.js";
 import moduleMongo from "./module.mongo.js";
 import participantMongo from "./participant.mongo.js";
-import mongoose from "mongoose";
 
 const getNoteByModuleIdAndParticipantCode = async (participantCode, moduleId) => {
     try {
