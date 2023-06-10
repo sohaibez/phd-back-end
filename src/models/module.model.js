@@ -64,7 +64,7 @@ const addTeacherToModule = async (moduleId, teacherId) => {
         const teacher = await userMongo.findById(teacherId);
         if (!teacher) return null;
 
-        if (module.teachers.includes(teacherId)) return null;
+        if (module.teachers.includes(teacherId)) return module;
 
         module.teachers.push(teacherId);
         await module.save();
