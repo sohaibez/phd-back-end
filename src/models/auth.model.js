@@ -3,10 +3,10 @@ import userMongo from "./user.mongo.js";
 
 const getUserByEmail = async (email) => {
     try {
-        const user = await userMongo.find({ email });
+        const user = await userMongo.findOne({ email: email });
         if (user) return user;
 
-        const participant = await participantMongo.find({ email });
+        const participant = await participantMongo.findOne({ email, email });
         if (participant) return participant;
 
         return null;
