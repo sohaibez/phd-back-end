@@ -1,5 +1,9 @@
 import bcrypt from 'bcrypt';
 
+import {
+    getUserByEmail
+} from "../../models/auth.model.js";
+
 const httpsLoginHandler = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;

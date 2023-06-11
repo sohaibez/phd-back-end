@@ -15,3 +15,7 @@ const getUserByEmail = async (email) => {
         return null;
     }
 }
+
+export {
+    getUserByEmail
+}
