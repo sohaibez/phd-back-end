@@ -12,6 +12,7 @@ import modulesRouter from "./routes/module/module.router.js";
 import claimsRouter from "./routes/claim/claim.router.js";
 import phasesRouter from "./routes/phase/phase.router.js";
 import gradesRouter from "./routes/grade/grade.router.js";
+import authRouter from "./routes/auth/auth.router.js";
 
 dotenv.config()
 
@@ -30,6 +31,7 @@ app.use("/modules", modulesRouter);
 app.use("/claims", claimsRouter);
 app.use("/phases", phasesRouter);
 app.use("/grades", gradesRouter);
+app.use("/auth", authRouter);
 
 export {
     app
