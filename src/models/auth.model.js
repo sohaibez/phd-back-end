@@ -1,5 +1,5 @@
-import participantMongo from "./participant.mongo";
-import userMongo from "./user.mongo";
+import participantMongo from "./participant.mongo.js";
+import userMongo from "./user.mongo.js";
 
 const getUserByEmail = async (email) => {
     try {
