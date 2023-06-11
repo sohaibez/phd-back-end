@@ -42,7 +42,27 @@ const addGrades = async () => {
     }
 }
 
+const getGradeBySpeciality = async (speciality) => {
+    try {
+        let returnedGrades = [];
+        const grades = await getAllGrades();
+        if (!grades) return null;
+
+        for (let grade of grades) {
+            let participant = await participantMongo.findById(grade.participantId);
+            if (!participant) return null;
+            if (participant.speciality === speciality) returnedGrades.push(grade);
+        }
+
+        return returnedGrades.sort((a, b) => a.grade - b.grade);
+    } catch (err) {
+        console.log(err);
+        return null;
+    }
+}
+
 export {
     getAllGrades,
-    addGrades
+    addGrades,
+    getGradeBySpeciality
 }
