@@ -11,4 +11,4 @@ const GradeSchema = mongoose.Schema({
     }
 });
 
-export default mongoose.model("gradeSchema", GradeSchema);
+export default mongoose.model("grade", GradeSchema);
